@@ -74,7 +74,9 @@ def main():
 
     # FUNCTIONAL_ROLEの一覧から一つを選択
     selected_role = st.selectbox(
-        "**Select Role**", role_options)
+        "**Select Role**",
+        role_options,
+        index=None)
 
     # 選択された値をセッション状態に保存
     st.session_state['selected_role'] = selected_role
