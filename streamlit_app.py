@@ -1,7 +1,5 @@
 from streamlit_react_flow import react_flow
 import streamlit as st
-from pprint import pprint
-import pandas as pd
 import replicate
 import os
 from transformers import AutoTokenizer
