@@ -2,3 +2,4 @@ streamlit-react-flow
 replicate
 transformers
 snowflake-snowpark-python
+tabulate
