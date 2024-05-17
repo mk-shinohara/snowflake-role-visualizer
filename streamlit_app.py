@@ -70,7 +70,7 @@ def main():
 
     # セッション状態の初期化
     if 'selected_role' not in st.session_state or st.session_state['selected_role'] not in role_options:
-        st.session_state['selected_role'] = role_options[0] if role_options else None
+        st.session_state['selected_role'] = ''
 
     # FUNCTIONAL_ROLEの一覧から一つを選択
     selected_role = st.selectbox(
