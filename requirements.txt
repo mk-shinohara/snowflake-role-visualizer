@@ -3,3 +3,4 @@ replicate
 transformers
 snowflake-snowpark-python
 tabulate
+pillow

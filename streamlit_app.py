@@ -6,6 +6,8 @@ from transformers import AutoTokenizer
 import sys
 from util import get_env_var_config
 from snowflake.snowpark import Session
+from PIL import Image
+
 
 os.environ["SNOWSQL_USER"] = st.secrets["SNOWFLAKE_USER"]
 os.environ["SNOWSQL_PWD"] = st.secrets["SNOWFLAKE_PASSWORD"]
@@ -60,7 +62,11 @@ def mapping_access_role(row, element, last_element_id):
 
 
 def main():
-    st.set_page_config(layout="wide")
+
+    st.set_page_config(
+        layout="wide",
+        page_icon="./favicon.png",
+    )
 
     get_replicate_api_token()
     display_sidebar_ui()
@@ -266,7 +272,7 @@ def display_sidebar_ui():
         st.caption("""
 Hi! I'm a Data Engineer at Telecom Company. I've developed a tool to visualize the relationship between functional roles and access roles in Snowflake.
 and Advice on whether the relationship is appropriate or not using Snowflake Arctic!
-LinkedIN: [https://www.linkedin.com/in/makoto-shinohara-91a3a1131/)
+[LinkedIn](https://www.linkedin.com/in/makoto-shinohara-91a3a1131/)
         """)
 
         # # # Uncomment to show debug info
