@@ -24,7 +24,7 @@ session = Session.builder.configs(get_env_var_config()).create()
 
 # role_options = result.to_pandas()["name"].tolist()
 # ハードコード
-role_options = ["MARKETING_ANALYST", "SALES_ANALYST"]
+role_options = ["MARKETING_ANALYST", "SALES_ANALYST", "DATA_SCIENTIST"]
 
 
 def gen_element(row):
@@ -175,33 +175,59 @@ def main():
         flowStyles = {"height": 1000, "width": 2000}
         access_role_grants_mrkdwn = access_role_grants.to_markdown()
 
-        prompt = f"""日本語で回答をお願いします。
-Snowflake環境のロール設計について評価とアドバイスをお願いします。以下の情報を基に、ファンクショナルロールとアクセスロールの関係、および命名規則について問題がないか確認してください。
-選択されたファンクショナルロール: {st.session_state['selected_role']}
-以下の表は、ファンクショナルロールとアクセスロールの関係を示しています。
-NAME: オブジェクト名、PRIVILEGE: 権限名、GRANTEE_NAME: アクセスロール名、GRANTED_ON: オブジェクトの種類
-{access_role_grants_mrkdwn}
-- 命名規則: ロール名はすべて大文字で、アンダースコアで区切ります。
-- ファンクショナルロールには「_ROLE」、アクセスロールには「_ACCESS」を末尾に付けます。
-- 評価ポイント
-    - 権限の過剰付与
-    - 権限の不足
-    - アクセスロールの適用範囲
-    - セキュリティ
-    - 一貫性
-    - 命名規則
-- 期待する出力
-    - ロール設計の評価
-    - 命名規則の評価
-    - 問題点と改善策
-"""
-        # 英語ver.
-#         prompt = f"""
-# The relationship between the functional role: {st.session_state['selected_role']} and the access roles is as shown in the following markdown.
-# NAME is the object name, PRIVILEGE is the privilege name, GRANTEE_NAME is the access role name, and GRANTED_ON indicates the type of object.
-# Please advise if there are any issues with this content.
+#         prompt = f"""日本語で回答をお願いします。
+# Snowflake環境のロール設計について評価とアドバイスをお願いします。以下の情報を基に、ファンクショナルロールとアクセスロールの関係、および命名規則について問題がないか確認してください。
+# 選択されたファンクショナルロール: {st.session_state['selected_role']}
+# 以下の表は、ファンクショナルロールとアクセスロールの関係を示しています。
+# NAME: オブジェクト名、PRIVILEGE: 権限名、GRANTEE_NAME: アクセスロール名、GRANTED_ON: オブジェクトの種類
 # {access_role_grants_mrkdwn}
+# - 命名規則: ロール名はすべて大文字で、アンダースコアで区切ります。
+# - ファンクショナルロールには「_ROLE」、アクセスロールには「_ACCESS」を末尾に付けます。
+# - 評価ポイント
+#     - 権限の過剰付与
+#     - 権限の不足
+#     - アクセスロールの適用範囲
+#     - セキュリティ
+#     - 一貫性
+#     - 命名規則
+# - 期待する出力
+#     - ロール設計の評価
+#     - 命名規則の評価
+#     - 問題点と改善策
 # """
+
+        # 英語ver.
+        prompt = f"""
+Please evaluate and advise on the role design in our Snowflake environment based on the following information. Verify the relationship between functional roles and access roles, as well as the naming conventions.
+
+**Selected functional role: ** {st.session_state['selected_role']}
+
+The table below shows the relationship between functional roles and access roles.
+
+| NAME | PRIVILEGE | GRANTEE_NAME | GRANTED_ON |
+|-------------- | -------------- | --------------- | -----------------|
+| ... | ... | ... | ... |
+
+- **Naming conventions: **
+- All role names are in uppercase, separated by underscores.
+- Append "_ROLE" to functional roles and "_ACCESS" to access roles.
+
+- **Evaluation points: **
+- Excessive privileges
+- Insufficient privileges
+- Scope of access roles
+- Security
+- Consistency
+- Naming conventions
+
+- **Expected output: **
+- Evaluation of role design
+- Evaluation of naming conventions
+- Identified issues and improvement suggestions
+
+{access_role_grants_mrkdwn}
+"""
+
         print(prompt)
 
         get_and_process_prompt(prompt)
@@ -216,8 +242,17 @@ def get_replicate_api_token():
 def display_sidebar_ui():
     with st.sidebar:
         st.title('Snowflake Role Adviser')
-        st.caption("ファンクショナルロールとアクセスロールの関係を可視化します。")
-        st.caption("またその関係に問題がないかアドバイスを行います。")
+        # st.caption("ファンクショナルロールとアクセスロールの関係を可視化します。")
+
+        st.caption(
+            "Visualizing the relationship between functional roles and access roles.")
+
+        # st.caption("またその関係に問題がないかアドバイスを行います。")
+        st.caption(
+            "Additionally, providing advice on whether there are any issues with these relationships.")
+
+
+
         # st.slider('temperature', min_value=0.01, max_value=5.0, value=0.3,
         #           step=0.01, key="temperature")
         # st.slider('top_p', min_value=0.01, max_value=1.0, value=0.9, step=0.01,
@@ -231,6 +266,7 @@ def display_sidebar_ui():
         st.caption("""
 Hi! I'm a Data Engineer at Telecom Company. I've developed a tool to visualize the relationship between functional roles and access roles in Snowflake.
 and Advice on whether the relationship is appropriate or not using Snowflake Arctic!
+LinkedIN: [https://www.linkedin.com/in/makoto-shinohara-91a3a1131/)
         """)
 
         # # # Uncomment to show debug info
