@@ -269,6 +269,7 @@ def display_sidebar_ui():
         st.write("---")
 
         st.subheader("About(Me)")
+        st.image("./eye_catch.webp")
         st.caption("""
 Hi! I'm a Data Engineer at Telecom Company. I've developed a tool to visualize the relationship between functional roles and access roles in Snowflake.
 and Advice on whether the relationship is appropriate or not using Snowflake Arctic!  
